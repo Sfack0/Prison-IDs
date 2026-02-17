@@ -332,12 +332,12 @@
                 position: fixed;
                 top: 0;
                 left: 0;
-                width: 100vh;
-                height: 100vw;
+                width: calc(var(--real-vh, 1vh) * 100);
+                height: calc(var(--real-vw, 1vw) * 100);
                 max-width: none;
                 transform: rotate(90deg);
                 transform-origin: top left;
-                translate: 100vw 0;
+                translate: calc(var(--real-vw, 1vw) * 100) 0;
                 border: none;
             }
         }
@@ -465,6 +465,14 @@
 </div>
 
 <script>
+    function setRealViewport() {
+        document.documentElement.style.setProperty('--real-vh', window.innerHeight * 0.01 + 'px');
+        document.documentElement.style.setProperty('--real-vw', window.innerWidth * 0.01 + 'px');
+    }
+    setRealViewport();
+    window.addEventListener('resize', setRealViewport);
+    window.addEventListener('orientationchange', function() { setTimeout(setRealViewport, 100); });
+
     function updateTime() {
         const now = new Date();
         document.getElementById('timestamp').textContent =
